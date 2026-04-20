@@ -45,8 +45,13 @@ public class TicTacToe {
 
     public static int getUserMove() {
         System.out.print("Enter a slot number (1-9): ");
-        int slot = scanner.nextInt();
-        return slot;
+        return scanner.nextInt();
+    }
+
+    public static int[] convertSlotToIndex(int slot) {
+        int row = (slot - 1) / 3;
+        int col = (slot - 1) % 3;
+        return new int[]{row, col};
     }
 
     public static void main(String[] args) {
@@ -58,6 +63,9 @@ public class TicTacToe {
         toss();
 
         int userMove = getUserMove();
+        int[] index = convertSlotToIndex(userMove);
+
         System.out.println("User selected slot: " + userMove);
+        System.out.println("Row: " + index[0] + ", Column: " + index[1]);
     }
 }
