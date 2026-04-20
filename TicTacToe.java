@@ -1,10 +1,12 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class TicTacToe {
 
     static char userSymbol;
     static char computerSymbol;
     static char currentPlayer;
+    static Scanner scanner = new Scanner(System.in);
 
     public static void initializeBoard(char[][] board) {
         for (int i = 0; i < 3; i++) {
@@ -26,19 +28,25 @@ public class TicTacToe {
 
     public static void toss() {
         Random rand = new Random();
-        int tossResult = rand.nextInt(2); 
+        int tossResult = rand.nextInt(2);
 
         if (tossResult == 0) {
-            currentPlayer = 'U'; 
+            currentPlayer = 'U';
             userSymbol = 'X';
             computerSymbol = 'O';
             System.out.println("User won the toss and plays first (X)");
         } else {
-            currentPlayer = 'C'; 
+            currentPlayer = 'C';
             computerSymbol = 'X';
             userSymbol = 'O';
             System.out.println("Computer won the toss and plays first (X)");
         }
+    }
+
+    public static int getUserMove() {
+        System.out.print("Enter a slot number (1-9): ");
+        int slot = scanner.nextInt();
+        return slot;
     }
 
     public static void main(String[] args) {
@@ -49,8 +57,7 @@ public class TicTacToe {
 
         toss();
 
-        System.out.println("User Symbol: " + userSymbol);
-        System.out.println("Computer Symbol: " + computerSymbol);
-        System.out.println("Current Turn: " + (currentPlayer == 'U' ? "User" : "Computer"));
+        int userMove = getUserMove();
+        System.out.println("User selected slot: " + userMove);
     }
 }
