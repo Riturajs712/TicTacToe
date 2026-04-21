@@ -7,6 +7,7 @@ public class TicTacToe {
     static char computerSymbol;
     static char currentPlayer;
     static Scanner scanner = new Scanner(System.in);
+    static Random rand = new Random();
 
     public static void initializeBoard(char[][] board) {
         for (int i = 0; i < 3; i++) {
@@ -27,7 +28,6 @@ public class TicTacToe {
     }
 
     public static void toss() {
-        Random rand = new Random();
         int tossResult = rand.nextInt(2);
 
         if (tossResult == 0) {
@@ -62,6 +62,22 @@ public class TicTacToe {
         board[row][col] = symbol;
     }
 
+    public static void computerMove(char[][] board) {
+        int slot;
+        int[] index;
+
+        while (true) {
+            slot = rand.nextInt(9) + 1;
+            index = convertSlotToIndex(slot);
+
+            if (isValidMove(board, index[0], index[1])) {
+                placeMove(board, index[0], index[1], computerSymbol);
+                System.out.println("Computer selected slot: " + slot);
+                break;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         char[][] board = new char[3][3];
 
@@ -70,14 +86,31 @@ public class TicTacToe {
 
         toss();
 
-        int userMove = getUserMove();
-        int[] index = convertSlotToIndex(userMove);
+        if (currentPlayer == 'U') {
+            int userMove = getUserMove();
+            int[] index = convertSlotToIndex(userMove);
 
-        if (isValidMove(board, index[0], index[1])) {
-            placeMove(board, index[0], index[1], userSymbol);
-            printBoard(board);
+            if (isValidMove(board, index[0], index[1])) {
+                placeMove(board, index[0], index[1], userSymbol);
+                printBoard(board);
+                computerMove(board);
+                printBoard(board);
+            } else {
+                System.out.println("Invalid Move");
+            }
         } else {
-            System.out.println("Invalid Move");
+            computerMove(board);
+            printBoard(board);
+
+            int userMove = getUserMove();
+            int[] index = convertSlotToIndex(userMove);
+
+            if (isValidMove(board, index[0], index[1])) {
+                placeMove(board, index[0], index[1], userSymbol);
+                printBoard(board);
+            } else {
+                System.out.println("Invalid Move");
+            }
         }
     }
 }
