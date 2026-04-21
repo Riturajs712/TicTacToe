@@ -54,6 +54,10 @@ public class TicTacToe {
         return new int[]{row, col};
     }
 
+    public static boolean isValidMove(char[][] board, int row, int col) {
+        return row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == '-';
+    }
+
     public static void main(String[] args) {
         char[][] board = new char[3][3];
 
@@ -65,7 +69,10 @@ public class TicTacToe {
         int userMove = getUserMove();
         int[] index = convertSlotToIndex(userMove);
 
-        System.out.println("User selected slot: " + userMove);
-        System.out.println("Row: " + index[0] + ", Column: " + index[1]);
+        if (isValidMove(board, index[0], index[1])) {
+            System.out.println("Valid Move");
+        } else {
+            System.out.println("Invalid Move");
+        }
     }
 }
