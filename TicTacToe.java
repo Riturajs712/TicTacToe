@@ -58,6 +58,10 @@ public class TicTacToe {
         return row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == '-';
     }
 
+    public static void placeMove(char[][] board, int row, int col, char symbol) {
+        board[row][col] = symbol;
+    }
+
     public static void main(String[] args) {
         char[][] board = new char[3][3];
 
@@ -70,7 +74,8 @@ public class TicTacToe {
         int[] index = convertSlotToIndex(userMove);
 
         if (isValidMove(board, index[0], index[1])) {
-            System.out.println("Valid Move");
+            placeMove(board, index[0], index[1], userSymbol);
+            printBoard(board);
         } else {
             System.out.println("Invalid Move");
         }
