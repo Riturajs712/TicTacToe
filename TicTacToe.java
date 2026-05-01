@@ -77,16 +77,36 @@ public class TicTacToe {
 
     public static boolean checkWin(char[][] board, char symbol) {
         for (int i = 0; i < 3; i++) {
-            if (board[i][0] == symbol && board[i][1] == symbol && board[i][2] == symbol)
+            boolean rowWin = true;
+            boolean colWin = true;
+
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] != symbol) {
+                    rowWin = false;
+                }
+                if (board[j][i] != symbol) {
+                    colWin = false;
+                }
+            }
+
+            if (rowWin || colWin) {
                 return true;
-            if (board[0][i] == symbol && board[1][i] == symbol && board[2][i] == symbol)
-                return true;
+            }
         }
-        if (board[0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol)
-            return true;
-        if (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol)
-            return true;
-        return false;
+
+        boolean diag1 = true;
+        boolean diag2 = true;
+
+        for (int i = 0; i < 3; i++) {
+            if (board[i][i] != symbol) {
+                diag1 = false;
+            }
+            if (board[i][2 - i] != symbol) {
+                diag2 = false;
+            }
+        }
+
+        return diag1 || diag2;
     }
 
     public static boolean isBoardFull(char[][] board) {
