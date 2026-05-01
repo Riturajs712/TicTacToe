@@ -109,11 +109,12 @@ public class TicTacToe {
         return diag1 || diag2;
     }
 
-    public static boolean isBoardFull(char[][] board) {
+    public static boolean isDraw(char[][] board) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == '-')
+                if (board[i][j] == '-') {
                     return false;
+                }
             }
         }
         return true;
@@ -142,7 +143,7 @@ public class TicTacToe {
                         break;
                     }
 
-                    if (isBoardFull(board)) {
+                    if (isDraw(board)) {
                         System.out.println("Game Draw!");
                         break;
                     }
@@ -161,7 +162,7 @@ public class TicTacToe {
                     break;
                 }
 
-                if (isBoardFull(board)) {
+                if (isDraw(board)) {
                     System.out.println("Game Draw!");
                     break;
                 }
