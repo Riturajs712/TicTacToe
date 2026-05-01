@@ -63,12 +63,9 @@ public class TicTacToe {
     }
 
     public static void computerMove(char[][] board) {
-        int slot;
-        int[] index;
-
         while (true) {
-            slot = rand.nextInt(9) + 1;
-            index = convertSlotToIndex(slot);
+            int slot = rand.nextInt(9) + 1;
+            int[] index = convertSlotToIndex(slot);
 
             if (isValidMove(board, index[0], index[1])) {
                 placeMove(board, index[0], index[1], computerSymbol);
@@ -76,6 +73,30 @@ public class TicTacToe {
                 break;
             }
         }
+    }
+
+    public static boolean checkWin(char[][] board, char symbol) {
+        for (int i = 0; i < 3; i++) {
+            if (board[i][0] == symbol && board[i][1] == symbol && board[i][2] == symbol)
+                return true;
+            if (board[0][i] == symbol && board[1][i] == symbol && board[2][i] == symbol)
+                return true;
+        }
+        if (board[0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol)
+            return true;
+        if (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol)
+            return true;
+        return false;
+    }
+
+    public static boolean isBoardFull(char[][] board) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == '-')
+                    return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) {
@@ -86,30 +107,46 @@ public class TicTacToe {
 
         toss();
 
-        if (currentPlayer == 'U') {
-            int userMove = getUserMove();
-            int[] index = convertSlotToIndex(userMove);
+        while (true) {
 
-            if (isValidMove(board, index[0], index[1])) {
-                placeMove(board, index[0], index[1], userSymbol);
-                printBoard(board);
+            if (currentPlayer == 'U') {
+                int userMove = getUserMove();
+                int[] index = convertSlotToIndex(userMove);
+
+                if (isValidMove(board, index[0], index[1])) {
+                    placeMove(board, index[0], index[1], userSymbol);
+                    printBoard(board);
+
+                    if (checkWin(board, userSymbol)) {
+                        System.out.println("User Wins!");
+                        break;
+                    }
+
+                    if (isBoardFull(board)) {
+                        System.out.println("Game Draw!");
+                        break;
+                    }
+
+                    currentPlayer = 'C';
+                } else {
+                    System.out.println("Invalid Move");
+                }
+
+            } else {
                 computerMove(board);
                 printBoard(board);
-            } else {
-                System.out.println("Invalid Move");
-            }
-        } else {
-            computerMove(board);
-            printBoard(board);
 
-            int userMove = getUserMove();
-            int[] index = convertSlotToIndex(userMove);
+                if (checkWin(board, computerSymbol)) {
+                    System.out.println("Computer Wins!");
+                    break;
+                }
 
-            if (isValidMove(board, index[0], index[1])) {
-                placeMove(board, index[0], index[1], userSymbol);
-                printBoard(board);
-            } else {
-                System.out.println("Invalid Move");
+                if (isBoardFull(board)) {
+                    System.out.println("Game Draw!");
+                    break;
+                }
+
+                currentPlayer = 'U';
             }
         }
     }
